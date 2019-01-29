@@ -1,0 +1,90 @@
+######################################################################################
+#^^^^^^^^^^^^^^^^^^^^^^   Important pour la visualisation   ^^^^^^^^^^^^^^^^^^^^^^^^^#
+
+.mode column
+.header on
+
+
+######################################################################################
+#^^^^^^^^^^^^^^^^^^^^^^^^^   Récupérer tous les albums   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^#
+
+SELECT * From albums;
+
+
+######################################################################################
+#^^^^^^^^^^^   Récupérer tous les albums dont le titre contient "Great"    ^^^^^^^^^^#
+
+SELECT * From albums 
+WHERE title LIKE '%Great%';
+
+
+######################################################################################
+#^^^^^^^^^^^   Donner le nombre total d'albums contenus dans la base    ^^^^^^^^^^^^^#
+
+SELECT COUNT(*) From albums;
+
+
+######################################################################################
+#^^^^^^^^^^^   Supprimer tous les albums dont le nom contient "music"    ^^^^^^^^^^^^#
+
+DELETE FROM albums
+WHERE title LIKE '%music%';
+
+
+######################################################################################
+#^^^^^^^^^^^^^^^^   Récupérer tous les albums écrits par AC/DC    ^^^^^^^^^^^^^^^^^^^#
+
+SELECT * FROM albums
+JOIN artists ON artists.ArtistId = albums.ArtistId
+WHERE artists.Name = 'AC/DC';
+
+
+######################################################################################
+#^^^^^^^^^^^^^^   Récupérer tous les titres des albums de AC/DC    ^^^^^^^^^^^^^^^^^^#
+
+# prend en compte albums écrits avant formation du groupe
+
+SELECT * FROM tracks                          
+JOIN albums ON albums.AlbumId = tracks.AlbumId
+WHERE albums.ArtistId = (SELECT ArtistId FROM artists WHERE Name = 'AC/DC');
+
+######################################################################################
+#^^^^^^^^   Récupérer la liste des titres de l'album "Let There Be Rock"    ^^^^^^^^^#
+
+SELECT * FROM tracks
+JOIN albums ON albums.AlbumId = tracks.AlbumId
+WHERE albums.Title = 'Let There Be Rock';
+
+
+######################################################################################
+#^^^^^^^^^^^   Afficher le prix de cet album ainsi que sa durée totale    ^^^^^^^^^^^#
+
+SELECT SUM(UnitPrice), SUM(Milliseconds) FROM tracks
+JOIN albums ON albums.AlbumId = tracks.AlbumId
+WHERE albums.Title = 'Let There Be Rock';
+
+
+######################################################################################
+#^^^^   Afficher le coût de l'intégralité de la discographie de "Deep Purple"   ^^^^^#
+
+
+SELECT SUM(UnitPrice) FROM tracks
+JOIN albums ON albums.AlbumId = tracks.AlbumId
+WHERE albums.ArtistId = (SELECT ArtistId FROM artists WHERE Name = 'Deep Purple');
+
+
+######################################################################################
+# Créer album artiste favori en base, renseignant les tables albums, artists tracks  #
+
+# En créant un artiste
+
+INSERT INTO albums (AlbumId, Title, ArtistId) VALUES (348, 'POLAK', 276);
+INSERT INTO artists (ArtistId, Name) VALUES (276, 'PLK');
+INSERT INTO tracks (TrackId, Name, AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice) VALUES (3504, 'Monegasque', 348, 2, 10, 'POLAK', 208805, 3349723, 0.99);
+
+OU
+
+# En créant seulement un album
+
+INSERT INTO albums (AlbumId, Title, ArtistId) VALUES (349, 'DECES', 1);
+INSERT INTO tracks (TrackId, Name, AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice) VALUES (3505, 'DES ESSAIS', 349, 2, 10, 'AC/DC', 208805, 3349723, 0.99);

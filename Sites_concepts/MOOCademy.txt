@@ -1,0 +1,13 @@
+CREATE TABLE `class` (
+`id` INTEGER PRIMARY KEY AUTOINCREMENT, 
+`Title` TEXT,
+`Description` TEXT,
+);
+
+CREATE TABLE `lesson` (
+`id` INTEGER PRIMARY KEY AUTOINCREMENT,
+`Title` TEXT,
+`Body` TEXT,
+class_id INTEGER,
+FOREIGN KEY(class_id) REFERENCES class(id)
+);

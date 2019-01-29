@@ -1,0 +1,11 @@
+CREATE TABLE `students` (
+`id` INTEGER PRIMARY KEY AUTOINCREMENT
+);
+
+CREATE TABLE `classes` (
+`id` INTEGER PRIMARY KEY AUTOINCREMENT, 
+user_id INTEGER,
+comment INTEGER,
+FOREIGN KEY(user_id) REFERENCES user(id)
+FOREIGN KEY(comment_id) REFERENCES comment(id)
+);
